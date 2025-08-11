@@ -1,2 +1,0 @@
-to check the git operations
-2nd check of commit changes
