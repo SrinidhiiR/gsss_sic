@@ -56,7 +56,7 @@ git config --global user.email "useremail@gmail.com"
 
 8.Personal Access Token(PAT):to access git operations without password.   
 
-----> Python:
+----> Python: **Note: Always follow the clean coding practices and English fundamentals.
  
 1.ip: print(print("i love programming"))
 op: i love programming 
