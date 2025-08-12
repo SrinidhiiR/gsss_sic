@@ -1,0 +1,68 @@
+MY NOTES FROM SIC ---> BY NITHIN SIR on PYTHON FUNDAMENTALS , DATA ANALYTICS , DSA
+-------------> Day1: 11/08/25 
+
+---->Keyboard Shortcuts: 
+
+Word Wrapper:alt+z
+current line:shift+home
+end line:shift+end
+select line:shift+end
+select all:ctrl+a
+moving word to word:ctrl+arrow
+beginning and endling of page:ctrl+home , ctrl+end
+line no. wise pointing:ctrl+G+line no. 
+find:ctrl+F
+find and replace:ctrl+H
+small letter case:ctrl+U 
+upeer letter case:ctrl+shift+U
+.........................................................
+
+---->Git commands: 
+  
+1.git clone: to copy git files from server
+git clone repo url; cd g , tab --changes automatically
+
+2.git status: to check status of remote repo wrt local repo
+git status 
+
+3.git add: to add all changes of local repo to the remote repo by listing 
+git add . 
+git add ./file path 
+
+*staging means listing 
+*push:local to remote --> 3 steps
+               add
+               commit
+               push	
+*pull: remote to local
+	
+4.git commit: git creates object of files which should be pushed 
+git commit -m "<type message here>"	
+
+5.git push: need internet 
+git push 
+git push origin main 
+
+6.git pull: need internet 
+git pull 
+git pull origin main
+
+7.git configuration:
+git config --global user.name "username"
+git config --global user.email "useremail@gmail.com"
+
+*cmd prompt: cls 
+.-- current directory
+
+8.Personal Access Token(PAT):to access git operations without password.   
+
+----> Python:
+ 
+1.ip: print(print("i love programming"))
+op: i love programming 
+    NONE
+
+2.ip: print()
+op:*<nothing>
+
+3.
