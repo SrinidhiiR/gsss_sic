@@ -66,4 +66,7 @@ op: i love programming
 2.ip: print()
 op:*<nothing>
 
-3.
+3.ip: #Check whether a given number is Even
+number=int(input("Enter a number to check if it is Even "))
+if (number % 2 == 0):
+	print(f"Given number {number} is Even")
