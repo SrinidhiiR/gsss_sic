@@ -15,7 +15,7 @@ find:ctrl+F
 find and replace:ctrl+H
 small letter case:ctrl+U 
 upeer letter case:ctrl+shift+U
-.........................................................
+...............................................................................................................................
 
 ---->Git commands: 
   
@@ -55,6 +55,7 @@ git config --global user.email "useremail@gmail.com"
 .-- current directory
 
 8.Personal Access Token(PAT):to access git operations without password.   
+.......................................................................................................................................
 
 ----> Python: **Note: Always follow the clean coding practices and English fundamentals.
  
