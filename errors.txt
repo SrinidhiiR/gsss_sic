@@ -1,0 +1,10 @@
+Errors names are always in pascal case from oops Here ERRORS are Classes
+SyntaxError :
+NameError : if variable , fxn, doesnt exist  
+run time error - exception
+TypeError : range excepted atleast one  or atmost 3 arguments in range, str obj cannot be interpreted as int while type casting,adding string and int
+IndexError : if the element doesnt exist in list , array , or dictionary
+ValueError : trying to cast some value into another type , that doesnt exist 
+ex: s ="math_table"
+n= int(s)-----> then u will get value error
+ZeroDivisionError 

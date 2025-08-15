@@ -1,0 +1,219 @@
+MY NOTES FROM SIC ---> BY NITHIN SIR on PYTHON FUNDAMENTALS , DATA ANALYTICS , DSA
+
+-------------> Day2: 12/08/25 
+*Note :Always applications and os communicates in string 
+argv[]---> its an array . 
+----> ARITHMETIC OPERATORS:
+
++ - * // / % **
+power: 2**3**2 = 2**9 = 512
+The operators + and - have the least precedence (heirarchy/preference)
+All the Arithmetic operators except the power operator have Left to Right Associtivity.
+NOTE:
+The way +ve integers are stored in memory, the way -ve integers are stored in memory and the floating point numbers (number with precission) are all different.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----> Number System:
+ 
+decimal : num = 67
+octal: num = 0o67 [ only 0 to 7 ]
+binary :num = 0b101010
+hexa:[ only 0 to 9 , A-F]
+num = 0x99
+num = 0X99
+num = 0X7F   
+
+f  = hexa-decimal
+17 = octal
+15 = decimal
+1111 = binary
+ff = 15 * 16(1) + 15 * 16(0) = 240 + 15 = 255
+11111111
+ffff = 65535
+
+--------------------------------------------------------------------------------------------------------------
+
+--> IN UNSIGNED int : 
+       the max value and minimum values (respectively) are: 0 to 255
+	   * the max no. value possible with 2 bits is 255
+
+**In a particular case, 11111111 is not 255. When is it ?
+So in signed byte, the max value and minimum values (respectively) are:"
+01111111 = 127
+10000000 = -128
+
+num = -23
+-23
+23
+00010111
+11101000---> 1's compliment
+11101001--->2's compliment
+for this 2's compliment calculate by considering mcb as -1 (-ve no)and from 7 as power and ignore 0's
+-1 * 2^(7) + 1 * 2^(6) + 1 * 2^(5) + 1 * 2^(3)+ 1 *2(0)
+-128 + 64 + 32 + 8 + 1
+-64 + 41
+= -23
+
+5 + 6
+0101
+0110
+1011
+
+5 + 6.055
+5.0 + 6.055
+
+4 - 5 % 7
+4 + 8 + 9
+Here the expressions are read from L -> R
+But they are evaluated only after converting user given infix notation expression into postfix expression.
+---------------------------------------------------------------------------------------------------------------------
+
+----> RELATIONAL OPERATORS:
+
+> < >= <= != ==, only 2 operators are required build other operators --> less than: < , equal to : =
+
+All are binary.
+I/P are numbers
+O/P is boolean
+Used with infix notation.
+Have higher precedence than logical operators but lesser than Arithmetic.
+
+for i from 1 to N do
+for i = 1; i <= N; i++:
+for i = 1; i < N+1; i++:
+
+for i = 1; i <= 20; i++
+for i = 1;  i < 21; i++
+
+[10, 20] Closed Interval
+i >= 10 and i <= 20
+[10, 20)
+i >= 10 and i < 20
+(20, 50)
+---------------------------------------------------------------------------------------------------------------------------
+
+----> LOGICAL OPERATORS:
+
+& && | || ! (C/C++/Java/C# etc)
+but in 
+and or not !  (Python)
+
+I/P are boolean
+O/P is boolean
+
+a = b
+variable = value
+-----------------------------------------------------
+Important points while implementing a solution:
+1. Time efficiency
+2. Space efficiency
+3. Simplicity/Readability
+4. Maintainability
+-------------------------------------------
+HOW TO SOLVE A PROBLEM:
+
+1. Read the problem statement carefully. List down the I/P data, relavant information. Isolate the unwanted information. Assertain what is the O/P.
+Outcome: I/P we know, O/P we know
+
+2. Find the solution. Forget programming. Find the solution using any specific technique or usin.g some formula or trial and error method.
+Outcome: We know the solution
+
+3. Write the Algorithm. Step by step procedure. Each step must be simple, unambigious and finite.
+
+4. Write the Fake-code (Pseucode)
+
+5. Code it!
+
+6. Unit testing, Cyxclomatic complexity (to find number of paths in the logic), optimize the logic.
+---------------------------------------------------------------------------------------------------------------------
+Ex:
+i/p: non negative number. 
+math.sqrt we need to use
+o/p: print PS or Not
+
+45      6.8     6   36
+144     12.0    12  144
+
+Read a non-ve number, say N
+find root of N, say ROOT
+convert ROOT to integer
+check if ROOT * ROOT is N
+if yes, print N is Perfect Square
+else, print N is not a P S
+
+N = input()
+ROOT = square_root(N)
+ROOT = integer(ROOT)
+if ROOT * ROOT is equal to N, then
+    print N is a P S
+else
+    print N is not a P S
+------------------------------------------------------------------------------------------------------------------------------------
+
+A. Inheritance
+
+1.Reuse existing solutions by creating a new class from an existing class.1.
+2.Add new features or modify behaviors without rewriting the old code.
+3.Package Inheritance: Classes from a package can be extended.
+class A is already fully developed and now inherting the samll requirements from class B 
+
+*UML Notation:
+ParentClass
+   ▲
+   │ (inherits)
+ChildClass
+* Having 2 many features is also hindrance.
+Problems can be solved with different models — choose based on requirements.
+
+
+B. Polymorphism
+
+1.A single problem can have multiple solutions.
+2.The same method or class behaves differently depending on context.
+3.Supports method overriding and method overloading.
+-----------------------------------------------------------------------------------------------------
+
+3. Object Relationships in OOPS:
+
+A. Association
+
+1.A "uses" relationship between two objects.
+2.The existence of both objects is required for the link to make sense.
+Example: Teacher ↔ Student
+
+
+B. Aggregation (Has-A, Independent)
+
+1. A whole-part relationship where parts are independent of the whole.
+2.If the whole object is destroyed, parts can still exist.
+Example: Car has a Music System (Music System works without Car).
+
+UML Notation:
+Car ◇── MusicSystem
+
+
+C. Composition (Has-A, Dependent)
+
+1.A whole-part relationship where parts are dependent on the whole.
+2.If the whole is destroyed, parts are also destroyed.
+Example: Fan has Blades (Blades cannot exist without Fan).
+
+UML Notation:
+Fan ◆── Blade
+
+-----> Python : 
+#cla_info.py
+import sys
+
+print(sys.argv) # printing the argv list
+print(type(sys.argv)) # printing type of argv
+print(sys.argv[0]) # printing 1st element in the list argv
+print(sys.argv[1]) # printing 2nd element in the list argv
+print(type(sys.argv[0]))
+print(type(sys.argv[1]))
+print(sys.argv[2]) # printing 3rd element in the list argv
+
+# Taxation and Resturant programs.
+
+floating point nos are stored using ieee standards.
