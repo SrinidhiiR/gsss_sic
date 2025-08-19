@@ -1,6 +1,7 @@
 MY NOTES FROM SIC ---> BY NITHIN SIR on PYTHON FUNDAMENTALS , DATA ANALYTICS , DSA
 
 -------------> Day2: 12/08/25 
+
 *Note :Always applications and os communicates in string 
 argv[]---> its an array . 
 ----> ARITHMETIC OPERATORS:
@@ -202,7 +203,7 @@ Example: Fan has Blades (Blades cannot exist without Fan).
 UML Notation:
 Fan ◆── Blade
 
------> Python : 
+-----> Python Code : 
 #cla_info.py
 import sys
 

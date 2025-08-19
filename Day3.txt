@@ -1,0 +1,92 @@
+MY NOTES FROM SIC ---> BY NITHIN SIR on PYTHON FUNDAMENTALS , DATA ANALYTICS , DSA
+-------------> Day3: 13/08/25 
+
+command line arguments:
+#cla_info.py
+import sys
+
+print(sys.argv) # printing the argv list
+print(type(sys.argv)) # printing type of argv
+print(sys.argv[0]) # printing 1st element in the list argv
+print(sys.argv[1]) # printing 2nd element in the list argv
+print(type(sys.argv[0]))
+print(type(sys.argv[1]))
+print(sys.argv[2]) # printing 3rd element in the list argv
+
+in cmd : python cla_info.py 15 ; this command is considered as string input in argv [].
+argv[]: it is a array/List containing the command line arguments "cla" as a "string" in it. 
+cla contains the file name as 1st element and 15 as 2nd element.
+--------------------------------------------------------------------------------------------------------
+** Formatting : 
+
+ex----> print("%d * %2d = %3d " %(n,i,n*i))
+ex----> print("%d * %02d = %03d " %(n,i,n*i))
+
+---------------------------------------------------------------------------------------------------------
+range function in Python:
+
+range(10)
+Start from 0 (default start value) and end with 9 (one before 10)
+
+range(2, 10)
+Start from 1 (user given start value) and end with 9 (one before 10)
+
+range(2, 100, 5)
+Start from 2 (user given start value) and end with 99 (one before 100) with user given increment/step of +5
+
+range(90, 10, -4)
+Start from 90 (user given start value) and end with 9 (one before 10) with user given increment of -4 (or decrement of +4)
+
+Correct way to call range, but no o/p:
+range(10, 10)
+range(0)
+range(20, 5)
+
+Incorrect way of calling range: (We get exception)
+range()
+range(10, 20, 'abc')
+range('abc')
+
+ex: for i in range(10):
+		print(i)
+		i+=2 ----> waste command ;
+as it doesn't increment i value by 2 ; [increment is done only by range function , not by this line in python]
+i.e : for i in range(0,10,2):
+	
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+----> Var_args :
+                 stores variable length argument 
+				 it is a tuple type argument
+I/P:
+def my_range(*var_args):
+    print(var_args)
+    print(type(var_args))
+    print(var_args[0])
+    print(type(var_args[0]))
+
+1.#my_range(0)
+2.#my_range()
+3.#my_range(1, 2, 3)
+4.#my_range('a', 'bnm', 'gsss', 'gsssietw')
+
+O/P:
+1. (0,)
+<class 'tuple'>
+0
+<class 'int'>
+2. my_range()
+ line 4, in my_range
+    print(var_args[0])
+          ~~~~~~~~^^^
+IndexError: tuple index out of range
+3. (1, 2, 3)
+<class 'tuple'>
+1
+<class 'int'>
+4.('a', 'bnm', 'gsss', 'gsssietw')
+<class 'tuple'>
+a
+<class 'str'>
+
+----------------------------------------------------------------------------------------------------------------
+
