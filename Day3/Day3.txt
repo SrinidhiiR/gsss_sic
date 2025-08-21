@@ -121,3 +121,76 @@ Generators are useful when:
 * You want to generate values one by one (on demand).
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 Error/Exemption Handling: 
+def my_function(): thowrs PqrError, LmnError
+try:
+    for number in sys.argv[1:]:
+        for element in number:
+            if not (element >= '0' and element <= '9'):
+                print(f'Invalid input {number}')
+                sys.exit('Program ended')
+except AbcError:
+    pass
+except XyzError:
+    pass
+
+Keywords in Exception Handling:
+try
+except
+throws
+raise
+classes: Exception, ValueError, TypeError etc.
+-----------------------------------------------------------
+   1.try and except:
+  ------------------
+Used for handling exceptions (errors).
+Code inside try is executed first.
+If an error occurs, Python jumps to the matching except block.
+
+Example:
+try:
+    num = int(input("Enter a number: "))  # may cause ValueError
+    print("You entered:", num)
+except ValueError:
+    print("Invalid input! Please enter a number.")
+------------------------------------------------------------------------------------------
+	2. raise:
+   ------------
+Used to manually raise an exception when a condition is not met.
+You can raise built-in exceptions or create custom ones. 
+
+Example:
+def divide(a, b):
+    if b == 0:
+        raise ZeroDivisionError("You cannot divide by zero!")  # manually raise
+    return a / b
+
+try:
+    print(divide(10, 0))
+except ZeroDivisionError as e:
+    print("Error:", e)
+------------------------------------------------------------------------------------------
+🔹 1. Generalised Error Classes
+These are the built-in base exception classes that cover a wide range of errors.
+They are “general” because many specific errors inherit from them.
+
+Examples:
+Exception → The base class for almost all errors.
+ArithmeticError → Base class for math-related errors.
+try:
+    x = 10 / 0   # ZeroDivisionError (specialised)
+except Exception as e:   # generalised handler
+    print("Caught a general error:", type(e).__name__)
+
+🔹 2. Specialised Error Classes
+These are specific error classes that inherit from generalised ones.
+They represent particular types of errors.
+
+Examples:
+ZeroDivisionError (child of ArithmeticError)
+IndexError (child of LookupError)
+try:
+    my_list = [1, 2, 3]
+    print(my_list[5])   # IndexError
+except IndexError:   # specialised handler
+    print("List index out of range!")
+---------------------------------------------------------------------------------------------------------
