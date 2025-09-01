@@ -1,15 +1,14 @@
-# analyzer.py
 import pandas as pd
 from dbconfig import get_connection
 
-# --- Placement Status Mapping + Global Order ---
 PLACEMENT_ORDER = [
     "Not Eligible",
     "Unable to Clear 1st Round",
     "Unable to Clear Technicals",
     "Unable to Clear HR",
     "Shortlisted",
-    "Placed"
+    "Placed",
+    "Unable to Clear GD"
 ]
 
 def map_status(code: int) -> str:
@@ -19,34 +18,31 @@ def map_status(code: int) -> str:
         3: "Unable to Clear Technicals",
         4: "Unable to Clear HR",
         9: "Shortlisted",
-        10: "Placed"
+        10: "Placed",
+        2: "Unable to Clear GD"
     }
     return mapping.get(code, "Unknown")
 
-
-def load_hiring_records(dept_filter=None, batch_filter=None, company_filter=None):
+def load_all_data():
     conn = get_connection()
 
-    # Load raw tables
-    student1_df = pd.read_sql("SELECT * FROM student1", conn)
-    student2_df = pd.read_sql("SELECT * FROM student", conn)
+    student_df = pd.read_sql("SELECT * FROM student", conn)
     company_df = pd.read_sql("SELECT * FROM company", conn)
     performance_df = pd.read_sql("SELECT * FROM performance", conn)
     hiring_df = pd.read_sql("SELECT * FROM hiring", conn)
 
-    # Merge using LEFT JOIN (include all students)
-    merged_query = """
+    # Build combined_df with joins
+    query = """
         SELECT s.usn, s.name, s.dept, s.batch, s.cgpa,
-               p.status, c.company, h.cid, h.date, h.ctc
+               p.status, c.company, h.ctc
         FROM student s
         LEFT JOIN performance p ON s.usn = p.usn
         LEFT JOIN hiring h ON p.cid = h.cid
         LEFT JOIN company c ON h.cid = c.cid
     """
-    combined_df = pd.read_sql(merged_query, conn)
+    combined_df = pd.read_sql(query, conn)
     conn.close()
 
-    # Apply status mapping + enforce category order
     combined_df["Placement_status"] = combined_df["status"].apply(map_status)
     combined_df["Placement_status"] = pd.Categorical(
         combined_df["Placement_status"],
@@ -54,31 +50,25 @@ def load_hiring_records(dept_filter=None, batch_filter=None, company_filter=None
         ordered=True
     )
 
-    # --- Apply filters ---
-    if dept_filter and dept_filter != "All":
-        combined_df = combined_df[combined_df["dept"] == dept_filter]
-    if batch_filter and batch_filter != "All" and batch_filter != "Last 3 Years":
-        combined_df = combined_df[combined_df["batch"] == batch_filter]
-    if company_filter and company_filter != "All":
-        combined_df = combined_df[combined_df["company"] == company_filter]
+    return student_df, company_df, performance_df, hiring_df, combined_df
 
-    # Handle "Last 3 Years"
+def apply_filters(df, batch_filter="All", dept_filter="All", company_filter="All"):
+    filtered = df.copy()
+
+    # Batch filter
     if batch_filter == "Last 3 Years":
-        all_batches = sorted(student1_df["batch"].dropna().unique())
+        all_batches = sorted(filtered["batch"].dropna().unique())
         if len(all_batches) >= 3:
-            last_three = all_batches[-3:]
-            combined_df = combined_df[combined_df["batch"].isin(last_three)]
+            filtered = filtered[filtered["batch"].isin(all_batches[-3:])]
+    elif batch_filter != "All":
+        filtered = filtered[filtered["batch"] == batch_filter]
 
-    # Pivot: student-company matrix
-    pivot_df = combined_df.pivot_table(
-        index=["usn", "name", "dept", "batch", "cgpa"],
-        columns="company",
-        values="Placement_status",
-        aggfunc="first"
-    ).reset_index()
+    # Department filter
+    if dept_filter != "All":
+        filtered = filtered[filtered["dept"] == dept_filter]
 
-    return (
-        combined_df, pivot_df,
-        student1_df, student2_df, company_df,
-        performance_df, hiring_df
-    )
+    # Company filter
+    if company_filter != "All":
+        filtered = filtered[filtered["company"] == company_filter]
+
+    return filtered

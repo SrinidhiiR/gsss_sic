@@ -1,55 +1,38 @@
-# app.py
 import streamlit as st
 import pandas as pd
-from analyzer import load_hiring_records
+from analyzer import load_all_data, apply_filters
 import visualization as vz
 
 # --- Page Config ---
 st.set_page_config(page_title="Placement Analysis Dashboard", layout="wide")
 st.title("📊 Placement Analysis Dashboard")
 
-# --- Load data initially ---
-(
-    df, pivot_df,
-    student1_df, student2_df, company_df,
-    performance_df, hiring_df
-) = load_hiring_records()
+# --- Load all data once ---
+student_df, company_df, performance_df, hiring_df, combined_df = load_all_data()
 
 # --- Sidebar Filters ---
 st.sidebar.header("Filters")
 
-# Department options
-dept_options = ["All"] + sorted(student1_df["dept"].dropna().unique().tolist())
+dept_options = ["All"] + sorted(student_df["dept"].dropna().unique().tolist())
 dept_filter = st.sidebar.selectbox("Select Department", dept_options)
 
-# Batch options (with "Last 3 Years" + "All")
-batch_list = sorted(student1_df["batch"].dropna().unique().tolist())
+batch_list = sorted(student_df["batch"].dropna().unique().tolist())
 batch_options = ["All", "Last 3 Years"] + batch_list
 batch_filter = st.sidebar.selectbox("Select Batch", batch_options)
 
-# Company options
 company_options = ["All"] + sorted(company_df["company"].dropna().unique().tolist())
 company_filter = st.sidebar.selectbox("Select Company", company_options)
 
-# Apply filters again
-(
-    df, pivot_df,
-    student1_df, student2_df, company_df,
-    performance_df, hiring_df
-) = load_hiring_records(dept_filter, batch_filter, company_filter)
+# --- Apply filters ---
+df = apply_filters(combined_df, batch_filter, dept_filter, company_filter)
 
-# --- KPI Summary Cards ---
+# --- KPI Summary ---
 st.subheader("📌 Key Placement Metrics")
 
-# Total students comes from student1 (master list)
-total_students = student1_df["usn"].nunique()
-
-# Placed & shortlisted come from filtered df
+total_students = df["usn"].nunique()
 placed_students = df[df["Placement_status"] == "Placed"]["usn"].nunique()
 shortlisted_students = df[df["Placement_status"] == "Shortlisted"]["usn"].nunique()
-not_placed = total_students - placed_students
-placement_rate = ( (placed_students + shortlisted_students) / total_students * 100) if total_students > 0 else 0
-
+placement_rate = ((placed_students + shortlisted_students) / total_students * 100) if total_students > 0 else 0
 
 card_style = """
     <div style="background-color:{bg}; padding:20px; border-radius:15px;
@@ -58,7 +41,6 @@ card_style = """
         <p style="margin:0; font-size:16px; font-weight:bold; color:#424242;">{label}</p>
     </div>
 """
-
 col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.markdown(card_style.format(bg="#bbdefb", value=total_students, label="🎓 Total Students"), unsafe_allow_html=True)
@@ -71,26 +53,34 @@ with col4:
 
 st.markdown("---")
 
-# --- Graphs Section ---
+# --- Graphs ---
 st.subheader("📊 Placement Analysis Graphs")
-color_set = vz.plot_overall_status(df) 
-vz.plot_top_recruiters(df)
-vz.plot_batch_wise(df)
-vz.plot_branch_wise(df)
-vz.plot_salary_trends(df)
-vz.plot_conversion_rates(df)
-vz.plot_cgpa_bins(df, color_set)    
+if not df.empty:
+    color_set = vz.plot_overall_status(df)
+    vz.plot_top_recruiters(df)
+    vz.plot_batch_wise(df)
+    vz.plot_branch_wise(df)
+    vz.plot_salary_trends(df)
+    vz.plot_conversion_rates(df)
+    vz.plot_cgpa_bins(df, color_set)
+else:
+    st.info("⚠ No data available for selected filters.")
 
 st.markdown("---")
 
-# --- Hiring Records Table ---
+# --- Hiring Records ---
 st.subheader("📑 Hiring Records Table")
-if not pivot_df.empty:
+if not df.empty:
+    pivot_df = df.pivot_table(
+        index=["usn", "name", "dept", "batch", "cgpa"],
+        columns="company",
+        values="Placement_status",
+        aggfunc="first"
+    ).reset_index()
     st.dataframe(pivot_df, use_container_width=True, height=500)
-    csv_data = pivot_df.to_csv(index=False).encode("utf-8")
     st.download_button(
         label="📥 Download CSV",
-        data=csv_data,
+        data=pivot_df.to_csv(index=False).encode("utf-8"),
         file_name="hiring_records.csv",
         mime="text/csv"
     )
