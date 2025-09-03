@@ -11,7 +11,7 @@ st.title("📊 Placement Analysis Dashboard")
 student_df, company_df, performance_df, hiring_df, combined_df = load_all_data()
 
 # --- Sidebar Filters ---
-st.sidebar.header("Filters")
+st.sidebar.header("Criteria ")
 
 dept_options = ["All"] + sorted(student_df["dept"].dropna().unique().tolist())
 dept_filter = st.sidebar.selectbox("Select Department", dept_options)
